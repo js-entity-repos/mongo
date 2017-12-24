@@ -2,7 +2,7 @@ import MissingEntityError from '@js-entity-repos/core/dist/errors/MissingEntityE
 import PatchEntity from '@js-entity-repos/core/dist/signatures/PatchEntity';
 import Config from '../Config';
 
-export default <Id, Entity>(config: Config<Id, Entity>): PatchEntity<Id, Entity> => {
+export default <Id, Entity extends Id>(config: Config<Id, Entity>): PatchEntity<Id, Entity> => {
   return async ({ id, patch }) => {
     const collection = (await config.collection);
     const document = config.constructDocument(id, patch);

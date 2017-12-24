@@ -2,7 +2,7 @@ import ConflictingEntityError from '@js-entity-repos/core/dist/errors/Conflictin
 import CreateEntity from '@js-entity-repos/core/dist/signatures/CreateEntity';
 import Config from '../Config';
 
-export default <Id, Entity>(config: Config<Id, Entity>): CreateEntity<Id, Entity> => {
+export default <Id, Entity extends Id>(config: Config<Id, Entity>): CreateEntity<Id, Entity> => {
   return async ({ id, entity }) => {
     const collection = (await config.collection);
     const document = config.constructDocument(id, entity);

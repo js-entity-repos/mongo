@@ -2,7 +2,7 @@ import MissingEntityError from '@js-entity-repos/core/dist/errors/MissingEntityE
 import OverwriteEntity from '@js-entity-repos/core/dist/signatures/OverwriteEntity';
 import Config from '../Config';
 
-export default <Id, Entity>(config: Config<Id, Entity>): OverwriteEntity<Id, Entity> => {
+export default <Id, Entity extends Id>(config: Config<Id, Entity>): OverwriteEntity<Id, Entity> => {
   return async ({ id, entity }) => {
     const collection = (await config.collection);
     const opts = { returnOriginal: false, upsert: false };

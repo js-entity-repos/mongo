@@ -8,7 +8,7 @@ const xor = (conditionA: boolean, conditionB: boolean) => {
   return (conditionA && !conditionB) || (!conditionA && conditionB);
 };
 
-export default <Id, Entity>(config: Config<Id, Entity>): GetEntities<Entity> => {
+export default <Id, Entity extends Id>(config: Config<Id, Entity>): GetEntities<Entity> => {
   return async ({ filter, sort, pagination }) => {
     const collection = (await config.collection);
 

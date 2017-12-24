@@ -2,7 +2,7 @@ import MissingEntityError from '@js-entity-repos/core/dist/errors/MissingEntityE
 import GetEntity from '@js-entity-repos/core/dist/signatures/GetEntity';
 import Config from '../Config';
 
-export default <Id, Entity>(config: Config<Id, Entity>): GetEntity<Id, Entity> => {
+export default <Id, Entity extends Id>(config: Config<Id, Entity>): GetEntity<Id, Entity> => {
   return async ({ id }) => {
     const collection = (await config.collection);
     const document = await collection.findOne(id);
