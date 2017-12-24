@@ -26,7 +26,7 @@ export interface TodoEntity extends TodoId {
 
 ```ts
 import FacadeConfig from '@js-entity-repos/mongo/dist/Config';
-import facade from '@js-entity-repos/mongo/dist/utils/connectToCollection';
+import connectToCollection from '@js-entity-repos/mongo/dist/utils/connectToCollection';
 
 const todoFacadeConfig: FacadeConfig = {
   collection: connectToCollection({
