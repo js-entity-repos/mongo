@@ -34,6 +34,14 @@ const todoFacadeConfig: FacadeConfig = {
     dbName: 'todoapp',
     url: 'mongodb://localhost:27017',
   }),
+  constructDocument: (id, patch) => {
+    // Converts an entity to a document for the database.
+    return { ...patch, ...id };
+  },
+  constructEntity: ({ _id, ...document }) => {
+    // Converts a document from the database to an entity.
+    return document;
+  },
   entityName: 'todo',
 };
 ```

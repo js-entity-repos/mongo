@@ -10,10 +10,7 @@ facadeTest(facade<TestId, TestEntity>({
     url: 'mongodb://localhost:27017',
   }),
   constructDocument: (id, patch) => {
-    return {
-      ...patch,
-      ...id,
-    };
+    return { ...patch, ...id };
   },
   constructEntity: ({ _id, ...document }) => {
     return document;
