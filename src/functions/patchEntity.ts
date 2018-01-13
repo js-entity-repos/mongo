@@ -1,14 +1,17 @@
 import MissingEntityError from '@js-entity-repos/core/dist/errors/MissingEntityError';
 import PatchEntity from '@js-entity-repos/core/dist/signatures/PatchEntity';
-import Config from '../Config';
+import Entity from '@js-entity-repos/core/dist/types/Entity';
+import FacadeConfig from '../FacadeConfig';
+import constructIdFilter from '../utils/constructIdFilter';
 
-export default <Id, Entity extends Id>(config: Config<Id, Entity>): PatchEntity<Id, Entity> => {
-  return async ({ id, patch }) => {
+export default <E extends Entity>(config: FacadeConfig<E>): PatchEntity<E> => {
+  return async ({ id, patch, filter = {} }) => {
     const collection = (await config.collection);
-    const document = config.constructDocument(id, patch);
+    const document = config.constructDocument({ ...patch as any, id });
     const update = { $set: document };
     const opts = { returnOriginal: false, upsert: false };
-    const { value } = await collection.findOneAndUpdate(id, update, opts);
+    const constructedFilter = constructIdFilter({ id, filter, config });
+    const { value } = await collection.findOneAndUpdate(constructedFilter, update, opts);
 
     if (value === undefined || value === null) {
       throw new MissingEntityError(config.entityName, id);

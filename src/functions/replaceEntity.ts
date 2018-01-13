@@ -1,20 +1,20 @@
 import MissingEntityError from '@js-entity-repos/core/dist/errors/MissingEntityError';
-import GetEntity from '@js-entity-repos/core/dist/signatures/GetEntity';
+import ReplaceEntity from '@js-entity-repos/core/dist/signatures/ReplaceEntity';
 import Entity from '@js-entity-repos/core/dist/types/Entity';
 import FacadeConfig from '../FacadeConfig';
 import constructIdFilter from '../utils/constructIdFilter';
 
-export default <E extends Entity>(config: FacadeConfig<E>): GetEntity<E> => {
-  return async ({ id, filter = {} }) => {
+export default <E extends Entity>(config: FacadeConfig<E>): ReplaceEntity<E> => {
+  return async ({ id, entity, filter = {} }) => {
     const collection = (await config.collection);
+    const opts = { returnOriginal: false, upsert: false };
     const constructedFilter = constructIdFilter({ id, filter, config });
-    const document = await collection.findOne(constructedFilter);
+    const { value } = await collection.findOneAndUpdate(constructedFilter, entity, opts);
 
-    if (document === undefined || document === null) {
+    if (value === undefined || value === null) {
       throw new MissingEntityError(config.entityName, id);
     }
 
-    const entity = config.constructEntity(document);
     return { entity };
   };
 };

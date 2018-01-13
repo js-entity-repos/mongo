@@ -1,10 +1,12 @@
 import CountEntities from '@js-entity-repos/core/dist/signatures/CountEntities';
-import Config from '../Config';
+import Entity from '@js-entity-repos/core/dist/types/Entity';
+import FacadeConfig from '../FacadeConfig';
 
-export default <Id, Entity extends Id>(config: Config<Id, Entity>): CountEntities<Entity> => {
-  return async ({ filter }) => {
+export default <E extends Entity>(config: FacadeConfig<E>): CountEntities<E> => {
+  return async ({ filter = {} }) => {
     const collection = (await config.collection);
-    const count = await collection.find(filter).count();
+    const constructedFilter = config.constructFilter(filter);
+    const count = await collection.find(constructedFilter).count();
     return { count };
   };
 };
