@@ -34,7 +34,7 @@
     "@ht2-labs/typescript-project": "1.0.0",
     "@types/lodash": "4.14.92",
     "@types/mocha": "2.2.46",
-    "@types/mongodb": "2.2.19",
+    "@types/mongodb": "2.2.20",
     "assert-rejects": "0.1.1",
     "jscpd": "0.6.17",
     "mocha": "4.1.0",
