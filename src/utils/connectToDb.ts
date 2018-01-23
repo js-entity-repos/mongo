@@ -6,6 +6,6 @@ export interface Opts {
 }
 
 export default async ({ dbName, url }: Opts): Promise<Db> => {
-  const client = await MongoClient.connect(url);
+  const client = await (new MongoClient(url)).connect();
   return client.db(dbName);
 };
