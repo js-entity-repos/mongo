@@ -6,7 +6,7 @@ import constructIdFilter from '../utils/constructIdFilter';
 
 export default <E extends Entity>(config: FacadeConfig<E>): PatchEntity<E> => {
   return async ({ id, patch, filter = {} }) => {
-    const collection = (await config.collection);
+    const collection = (await config.collection());
     const document = config.constructDocument({ ...patch as any, id });
     const update = { $set: document };
     const opts = { returnOriginal: false, upsert: false };

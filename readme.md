@@ -28,7 +28,7 @@ import connectToCollection from '@js-entity-repos/mongo/dist/utils/connectToColl
 import parseFilterId from '@js-entity-repos/mongo/dist/utils/parseFilterId';
 import renameSortId from '@js-entity-repos/mongo/dist/utils/renameSortId';
 
-const todoFacadeConfig: FacadeConfig<TodoEntity> = {
+const todoFactoryConfig: FactoryConfig<TodoEntity> = {
   collection: connectToCollection({
     collectionName: 'todos',
     dbName: 'todoapp',
@@ -60,5 +60,5 @@ const todoFacadeConfig: FacadeConfig<TodoEntity> = {
 ```ts
 import factory from '@js-entity-repos/mongo/dist/factory';
 
-const todosFacade = factory(todoFacadeConfig);
+const todosFacade = factory(todoFactoryConfig);
 ```
