@@ -30,6 +30,7 @@ import renameSortId from '@js-entity-repos/mongo/dist/utils/renameSortId';
 
 const todoFactoryConfig: FactoryConfig<TodoEntity> = {
   collection: connectToCollection({
+    collectionName: 'todos',
     dbName: 'todoapp',
     url: 'mongodb://localhost:27017',
   }),
