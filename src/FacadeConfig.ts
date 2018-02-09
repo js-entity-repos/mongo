@@ -6,7 +6,7 @@ import { Collection } from 'mongodb';
 export type Document = any;
 
 export default interface FacadeConfig<E extends Entity> {
-  readonly collection: Promise<Collection>;
+  readonly collection: () => Promise<Collection>;
   readonly defaultPaginationLimit: number;
   readonly entityName: string;
   readonly constructDocument: (patch: Partial<E>) => Document;

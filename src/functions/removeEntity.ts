@@ -6,7 +6,7 @@ import constructIdFilter from '../utils/constructIdFilter';
 
 export default <E extends Entity>(config: FacadeConfig<E>): RemoveEntity<E> => {
   return async ({ id, filter = {} }) => {
-    const collection = (await config.collection);
+    const collection = (await config.collection());
     const constructedFilter = constructIdFilter({ id, filter, config });
     const { value } = await collection.findOneAndDelete(constructedFilter);
 

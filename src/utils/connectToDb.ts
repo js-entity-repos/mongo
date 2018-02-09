@@ -1,3 +1,4 @@
+import { once } from 'lodash';
 import { Db, MongoClient } from 'mongodb';
 
 export interface Opts {
@@ -5,7 +6,9 @@ export interface Opts {
   readonly url: string;
 }
 
-export default async ({ dbName, url }: Opts): Promise<Db> => {
-  const client = await MongoClient.connect(url);
-  return client.db(dbName);
+export default ({ dbName, url }: Opts) => {
+  return once(async (): Promise<Db> => {
+    const client = await MongoClient.connect(url);
+    return client.db(dbName);
+  });
 };

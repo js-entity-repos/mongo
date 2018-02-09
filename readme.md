@@ -30,10 +30,10 @@ import renameSortId from '@js-entity-repos/mongo/dist/utils/renameSortId';
 
 const todoFacadeConfig: FacadeConfig<TodoEntity> = {
   collection: connectToCollection({
-    collectionName: 'todos',
     dbName: 'todoapp',
     url: 'mongodb://localhost:27017',
   }),
+  collectionName: 'todos',
   constructDocument: ({ id, ...patch}) => {
     // Optional property that converts an entity to a document for the database.
     return { _id: id, ...patch };
