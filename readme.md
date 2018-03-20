@@ -33,23 +33,24 @@ const todosFacade = factory<TodoEntity>({
     dbName: 'todoapp',
     url: 'mongodb://localhost:27017',
   }),
+  // Optional property to convert an entity to a DB document. Defaults to "utils/constructIdDocument".
   constructDocument: ({ id, ...patch}) => {
-    // Optional property that converts an entity to a document for the database.
     return { _id: id, ...patch };
   },
+  // Optional property to convert a DB document to an entity. Defaults to "utils/constructIdEntity".
   constructEntity: ({ _id, ...document }) => {
-    // Optional property that converts a document from the database to an entity.
     return { id: _id, ...document };
   },
+  // Optional property to convert an entity filter to a DB filter. Defaults to "utils/parseFilterId".
   constructFilter: (filter) => {
-    // Optional property that converts an entity filter to a filter for the DB.
     return parseFilterId(filter);
   },
+  // Optional property to convert an entity sort to a DB sort. Defaults to "utils/renameSortId".
   constructSort: (sort) => {
-    // Optional property that converts an entity sort to a sort for the DB.
     return renameSortId(sort);
   }.
-  defaultPaginationLimit: 100, // Optional property.
+  // Optional property. Defaults to 100.
+  defaultPaginationLimit: 100,
   entityName: 'todo',
 });
 ```
