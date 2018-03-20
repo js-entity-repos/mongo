@@ -1,13 +1,12 @@
 import facadeTest from '@js-entity-repos/core/dist/tests';
 import { TestEntity } from '@js-entity-repos/core/dist/tests/utils/testEntity';
 import factory from './factory';
-import connectToCollection from './utils/connectToCollection';
+import connectToDb from './utils/connectToDb';
 
 facadeTest(factory<TestEntity>({
-  collection: connectToCollection({
-    collectionName: 'testentities',
+  db: connectToDb({
     dbName: 'js-entity-repos-mongo',
     url: 'mongodb://localhost:27017',
   }),
-  entityName: 'Test Entity',
+  entityName: 'TestEntity',
 }));
