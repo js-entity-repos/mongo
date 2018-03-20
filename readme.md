@@ -49,8 +49,8 @@ const todosFacade = factory<TodoEntity>({
   constructSort: (sort) => {
     return renameSortId(sort);
   }.
-  // Optional property. Defaults to 100.
-  defaultPaginationLimit: 100,
+  // Optional property. Defaults to 10.
+  defaultPaginationLimit: 10,
   entityName: 'todo',
 });
 ```

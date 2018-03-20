@@ -21,7 +21,7 @@ export default <E extends Entity>(factoryConfig: FactoryConfig<E>): Facade<E> =>
     constructEntity: constructIdEntity,
     constructFilter: parseFilterId,
     constructSort: renameSortId,
-    defaultPaginationLimit: 100,
+    defaultPaginationLimit: 10,
     ...factoryConfig,
   };
   return {
