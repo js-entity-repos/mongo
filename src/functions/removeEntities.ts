@@ -4,7 +4,8 @@ import FacadeConfig from '../FacadeConfig';
 
 export default <E extends Entity>(config: FacadeConfig<E>): RemoveEntities<E> => {
   return async ({ filter = {} }) => {
-    const collection = (await config.collection());
+    const db = (await config.db());
+    const collection = db.collection(config.collectionName);
     const constructedFilter = config.constructFilter(filter);
     await collection.remove(constructedFilter);
   };

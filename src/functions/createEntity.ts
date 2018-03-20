@@ -6,7 +6,8 @@ import FacadeConfig from '../FacadeConfig';
 
 export default <E extends Entity>(config: FacadeConfig<E>): CreateEntity<E> => {
   return async ({ id, entity }) => {
-    const collection = (await config.collection());
+    const db = (await config.db());
+    const collection = db.collection(config.collectionName);
     const document = config.constructDocument({ ...entity as any, id });
     const update = { $setOnInsert: document };
     const opts = { returnOriginal: false, upsert: true };

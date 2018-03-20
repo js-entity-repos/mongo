@@ -17,6 +17,7 @@ import renameSortId from './utils/renameSortId';
 
 export default <E extends Entity>(factoryConfig: FactoryConfig<E>): Facade<E> => {
   const facadeConfig: FacadeConfig<E> = {
+    collectionName: factoryConfig.entityName,
     constructDocument: constructIdDocument,
     constructEntity: constructIdEntity,
     constructFilter: parseFilterId,

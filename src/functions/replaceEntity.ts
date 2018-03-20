@@ -6,7 +6,8 @@ import constructIdFilter from '../utils/constructIdFilter';
 
 export default <E extends Entity>(config: FacadeConfig<E>): ReplaceEntity<E> => {
   return async ({ id, entity, filter = {} }) => {
-    const collection = (await config.collection());
+    const db = (await config.db());
+    const collection = db.collection(config.collectionName);
     const opts = { returnOriginal: false, upsert: false };
     const constructedFilter = constructIdFilter({ id, filter, config });
     const { value } = await collection.findOneAndUpdate(constructedFilter, entity, opts);

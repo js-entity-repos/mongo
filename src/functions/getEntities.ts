@@ -21,7 +21,8 @@ export default <E extends Entity>(config: FacadeConfig<E>): GetEntities<E> => {
   };
   const defaultSort = { id: asc } as Sort<E>;
   return async ({ filter = {}, sort = defaultSort, pagination = defaultPagination }) => {
-    const collection = (await config.collection());
+    const db = (await config.db());
+    const collection = db.collection(config.collectionName);
 
     const paginationFilter = createPaginationFilter(pagination, sort);
     const fullFilter = { $and: [filter, paginationFilter] };

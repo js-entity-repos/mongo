@@ -23,16 +23,13 @@ export interface TodoEntity extends Entity {
 
 ```ts
 import factory from '@js-entity-repos/mongo/dist/factory';
-import connectToCollection from '@js-entity-repos/mongo/dist/utils/connectToCollection';
+import connectToDb from '@js-entity-repos/mongo/dist/utils/connectToDb';
 import parseFilterId from '@js-entity-repos/mongo/dist/utils/parseFilterId';
 import renameSortId from '@js-entity-repos/mongo/dist/utils/renameSortId';
 
 const todosFacade = factory<TodoEntity>({
-  collection: connectToCollection({
-    collectionName: 'todos',
-    dbName: 'todoapp',
-    url: 'mongodb://localhost:27017',
-  }),
+  // Optional property. Defaults to entityName.
+  collectionName: 'todos',
   // Optional property to convert an entity to a DB document. Defaults to "utils/constructIdDocument".
   constructDocument: ({ id, ...patch}) => {
     return { _id: id, ...patch };
@@ -48,7 +45,11 @@ const todosFacade = factory<TodoEntity>({
   // Optional property to convert an entity sort to a DB sort. Defaults to "utils/renameSortId".
   constructSort: (sort) => {
     return renameSortId(sort);
-  }.
+  },
+  db: connectToDb({
+    dbName: 'todoapp',
+    url: 'mongodb://localhost:27017',
+  }),
   // Optional property. Defaults to 10.
   defaultPaginationLimit: 10,
   entityName: 'todo',
