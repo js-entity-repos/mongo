@@ -4,9 +4,9 @@ import Pagination from '@js-entity-repos/core/dist/types/Pagination';
 import { forward } from '@js-entity-repos/core/dist/types/PaginationDirection';
 import Sort from '@js-entity-repos/core/dist/types/Sort';
 import SortOrder, { asc } from '@js-entity-repos/core/dist/types/SortOrder';
-import createCursorFromEntity from '@js-entity-repos/core/dist/utils/createCursorFromEntity';
+import createGetEntitiesResult from '@js-entity-repos/core/dist/utils/createGetEntitiesResult';
 import createPaginationFilter from '@js-entity-repos/core/dist/utils/createPaginationFilter';
-import { first, last, mapValues } from 'lodash';
+import { mapValues } from 'lodash';
 import FacadeConfig from '../FacadeConfig';
 
 const xor = (conditionA: boolean, conditionB: boolean) => {
@@ -32,16 +32,16 @@ export default <E extends Entity>(config: FacadeConfig<E>): GetEntities<E> => {
       return !xor(pagination.direction === forward, sortOrder === asc) ? 1 : -1;
     });
 
-    const documents = await collection
+    const results = await collection
       .find(constructedFilter)
       .sort(mongoSort)
-      .limit(pagination.limit)
+      .limit(pagination.limit + 1)
       .toArray();
+    const documents = results.slice(0, pagination.limit);
 
-    const entities = documents.map(config.constructEntity);
-    const nextCursor = createCursorFromEntity(last(entities), sort);
-    const previousCursor = createCursorFromEntity(first(entities), sort);
+    const entities: E[] = documents.map(config.constructEntity);
+    const isEnd = results.length <= pagination.limit;
 
-    return { entities, nextCursor, previousCursor };
+    return createGetEntitiesResult({ entities, isEnd, pagination, sort });
   };
 };
