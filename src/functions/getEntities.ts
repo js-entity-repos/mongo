@@ -8,6 +8,7 @@ import createGetEntitiesResult from '@js-entity-repos/core/dist/utils/createGetE
 import createPaginationFilter from '@js-entity-repos/core/dist/utils/createPaginationFilter';
 import { mapValues } from 'lodash';
 import FacadeConfig from '../FacadeConfig';
+import constructMongoFilter from '../utils/constructMongoFilter';
 
 const xor = (conditionA: boolean, conditionB: boolean) => {
   return (conditionA && !conditionB) || (!conditionA && conditionB);
@@ -28,12 +29,13 @@ export default <E extends Entity>(config: FacadeConfig<E>): GetEntities<E> => {
     const fullFilter = { $and: [filter, paginationFilter] };
     const constructedFilter = config.constructFilter(fullFilter);
     const constructedSort = config.constructSort(sort);
+    const mongoFilter = constructMongoFilter(constructedFilter);
     const mongoSort = mapValues(constructedSort, (sortOrder: SortOrder) => {
       return !xor(pagination.direction === forward, sortOrder === asc) ? 1 : -1;
     });
 
     const results = await collection
-      .find(constructedFilter)
+      .find(mongoFilter)
       .sort(mongoSort)
       .limit(pagination.limit + 1)
       .toArray();
